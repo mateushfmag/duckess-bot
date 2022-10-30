@@ -9,6 +9,7 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	"duckess-bot/events"
+    "github.com/joho/godotenv"
 )
 
 // Variables used for command line parameters
@@ -22,6 +23,18 @@ func init() {
 }
 
 func main() {
+
+    
+    // load .env file
+    err := godotenv.Load(".env")
+  
+    if err != nil {
+        fmt.Println("error loading env variables,", err)
+        return 
+    }
+
+
+    fmt.Println("LOAD ENV", os.Getenv("TESTE"))
 
     // Create a new Discord session using the provided bot token.
     discordGo, err := discordgo.New("Bot " + Token)
