@@ -16,14 +16,6 @@ var (
     Token string
 )
 
-const KuteGoAPIURL = "http://localhost:8080"
-
-type Gopher struct {
-    Name string `json: "name"`
-}
-
-
-
 func init() {
     flag.StringVar(&Token, "t", "", "Bot Token")
     flag.Parse()

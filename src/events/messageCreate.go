@@ -8,11 +8,10 @@ import (
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
+	"duckess-bot/constants"
+	"duckess-bot/types"
 )
-const KuteGoAPIURL = "http://localhost:8080"
-type Gopher struct {
-    Name string `json: "name"`
-}
+
 
 
 // This function will be called (due to AddHandler above) every time a new
@@ -27,8 +26,8 @@ func MessageCreate(discordSession *discordgo.Session, message *discordgo.Message
 
     if message.Content == "!gopher" {
 
-        //Call the KuteGo API and retrieve our cute Dr Who Gopher
-        response, err := http.Get(KuteGoAPIURL + "/gopher/" + "dr-who")
+        //Call the KuteGo API and retrieve our cute Dr Who types.Gopher
+        response, err := http.Get(constants.KuteGoAPIURL + "/gopher/" + "dr-who")
         if err != nil {
             fmt.Println(err)
         }
@@ -40,14 +39,14 @@ func MessageCreate(discordSession *discordgo.Session, message *discordgo.Message
                 fmt.Println(err)
             }
         } else {
-            fmt.Println("Error: Can't get dr-who Gopher! :-(")
+            fmt.Println("Error: Can't get dr-who types.Gopher! :-(")
         }
     }
 
     if message.Content == "!random" {
 
-        //Call the KuteGo API and retrieve a random Gopher
-        response, err := http.Get(KuteGoAPIURL + "/gopher/random/")
+        //Call the KuteGo API and retrieve a random types.Gopher
+        response, err := http.Get(constants.KuteGoAPIURL + "/gopher/random/")
         if err != nil {
             fmt.Println(err)
         }
@@ -59,14 +58,14 @@ func MessageCreate(discordSession *discordgo.Session, message *discordgo.Message
                 fmt.Println(err)
             }
         } else {
-            fmt.Println("Error: Can't get random Gopher! :-(")
+            fmt.Println("Error: Can't get random types.Gopher! :-(")
         }
     }
 
     if message.Content == "!gophers" {
 
         //Call the KuteGo API and display the list of available Gophers
-        response, err := http.Get(KuteGoAPIURL + "/gophers/")
+        response, err := http.Get(constants.KuteGoAPIURL + "/gophers/")
         if err != nil {
             fmt.Println(err)
         }
@@ -79,14 +78,14 @@ func MessageCreate(discordSession *discordgo.Session, message *discordgo.Message
                 fmt.Println(err)
             }
 
-            // Put only needed informations of the JSON document in our array of Gopher
-            var data []Gopher
+            // Put only needed informations of the JSON document in our array of types.Gopher
+            var data []types.Gopher
             err = json.Unmarshal(body, &data)
             if err != nil {
                 fmt.Println(err)
             }
 
-            // Create a string with all of the Gopher's name and a blank line as separator
+            // Create a string with all of the types.Gopher's name and a blank line as separator
             var gophers strings.Builder
             for _, gopher := range data {
                 gophers.WriteString(gopher.Name + "\n")
