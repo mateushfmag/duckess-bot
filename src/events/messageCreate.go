@@ -3,16 +3,26 @@ package events
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"strings"
 
-	"github.com/bwmarrin/discordgo"
 	"duckess-bot/constants"
+	"duckess-bot/events/commands"
 	"duckess-bot/types"
+
+	"github.com/bwmarrin/discordgo"
 )
 
 
+
+func sendFile(discordSession *discordgo.Session, channelId string, fileName string, data io.Reader){
+    _, err := discordSession.ChannelFileSend(channelId, fileName, data)
+    if err != nil {
+        fmt.Println(err)
+    }
+}
 
 // This function will be called (due to AddHandler above) every time a new
 // message is created on any channel that the authenticated bot has access to.
@@ -45,6 +55,8 @@ func MessageCreate(discordSession *discordgo.Session, message *discordgo.Message
 
     if message.Content == "!random" {
 
+        result := commands.Random()
+        fmt.Println(result)
         //Call the KuteGo API and retrieve a random types.Gopher
         response, err := http.Get(constants.KuteGoAPIURL + "/gopher/random/")
         if err != nil {
@@ -53,10 +65,7 @@ func MessageCreate(discordSession *discordgo.Session, message *discordgo.Message
         defer response.Body.Close()
 
         if response.StatusCode == 200 {
-            _, err = discordSession.ChannelFileSend(message.ChannelID, "random-gopher.png", response.Body)
-            if err != nil {
-                fmt.Println(err)
-            }
+            sendFile(discordSession,message.ChannelID,"random-gopher.png",response.Body)
         } else {
             fmt.Println("Error: Can't get random types.Gopher! :-(")
         }
