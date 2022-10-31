@@ -1,26 +1,17 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
 
-	"github.com/bwmarrin/discordgo"
 	"duckess-bot/events"
-    "github.com/joho/godotenv"
+
+	"github.com/bwmarrin/discordgo"
+	"github.com/joho/godotenv"
 )
 
-// Variables used for command line parameters
-var (
-    Token string
-)
-
-func init() {
-    flag.StringVar(&Token, "t", "", "Bot Token")
-    flag.Parse()
-}
 
 func main() {
 
@@ -33,8 +24,8 @@ func main() {
         return 
     }
 
+    Token := os.Getenv("DISCORD_TOKEN")
 
-    fmt.Println("LOAD ENV", os.Getenv("TESTE"))
 
     // Create a new Discord session using the provided bot token.
     discordGo, err := discordgo.New("Bot " + Token)
